@@ -1,3 +1,4 @@
+using apiTest.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apiTest.Controllers;
@@ -8,11 +9,11 @@ namespace apiTest.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class FirstController: ControllerBase
+public class FirstController(FirstService firstService): ControllerBase
 {
     [HttpGet]
     public ActionResult<string> Hello()
     {
-        return Ok("Hello Api Test");
+        return Ok(firstService.getMessage());
     }
 }

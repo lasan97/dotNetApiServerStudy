@@ -1,7 +1,12 @@
+using apiTest.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Controller 등록
 builder.Services.AddControllers();
+
+// Service 등록
+builder.Services.AddScoped<FirstService>();
 
 // Swagger 등록
 builder.Services.AddEndpointsApiExplorer();
@@ -16,11 +21,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-// 이것은 Minimal API
-app.MapGet("/", () =>
-{
-    return Results.Ok("Hello World!");
-});
 
 app.Run();
