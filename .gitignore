@@ -1,0 +1,34 @@
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+.idea
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# ASP.NET Core local settings
+appsettings.Development.json
