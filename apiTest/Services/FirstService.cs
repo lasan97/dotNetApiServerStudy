@@ -1,9 +1,12 @@
+using apiTest.Common.Data;
+using apiTest.Domain.Entities;
+
 namespace apiTest.Services;
 
-public class FirstService
+public class FirstService(AppDbContext dbContext)
 {
     public string getMessage()
     {
-        return "First Service";
+        return dbContext.Users.Count().ToString();
     }
 }
