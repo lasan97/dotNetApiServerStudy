@@ -1,25 +1,17 @@
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-
 namespace apiTest.Domain.Entities;
 
-// Data Annotation 적용
-[Index(nameof(Email), IsUnique = true)]
 public class User
 {
-    [Key]
+    public const int EmailMaxLength = 320;
+    public const int NameMaxLength = 100;
+    public const int PasswordHashMaxLength = 500;
+
     public long Id { get; private set; }
-    
-    [Required]
-    [MaxLength(320)]
+
     public string Email { get; private set; } = null!;
-    
-    [Required]
-    [MaxLength(100)]
+
     public string Name { get; private set; } = null!;
-    
-    [Required]
-    [MaxLength(500)]
+
     public string PasswordHash { get; private set; } = null!;
 
     protected User()
