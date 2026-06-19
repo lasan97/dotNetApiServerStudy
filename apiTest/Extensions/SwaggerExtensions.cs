@@ -7,10 +7,10 @@ public static class SwaggerExtensions
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        
+
         return services;
     }
-    
+
     public static WebApplication UseSwaggerDocs(this WebApplication app)
     {
         app.UseSwagger();

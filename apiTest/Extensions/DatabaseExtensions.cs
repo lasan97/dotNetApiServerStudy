@@ -9,9 +9,16 @@ public static class DatabaseExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "Connection string 'DefaultConnection' is not configured.");
+        }
+
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
+            options.UseNpgsql(connectionString)
         );
 
         return services;

@@ -1,8 +1,12 @@
-using apiTest.Common.Data;
 using apiTest.Extensions;
-using apiTest.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile(
+    "appsettings.Local.json",
+    optional: true,
+    reloadOnChange: true);
+builder.Configuration.AddEnvironmentVariables();
 
 // Controller 등록
 builder.Services.AddControllers();
@@ -13,23 +17,21 @@ builder.Services.AddApplicationServices();
 // DB 등록
 builder.Services.AddDatabase(builder.Configuration);
 
+// ErrorHandler 등록
+builder.Services.AddErrorHandling();
+
 // Swagger 등록
 builder.Services.AddSwaggerDocs();
 
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.EnsureCreated();
-}
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerDocs();
 }
 
+app.UseErrorHandling();
 app.MapControllers();
 
 app.Run();
