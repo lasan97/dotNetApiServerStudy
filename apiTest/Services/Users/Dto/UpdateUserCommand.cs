@@ -1,4 +1,4 @@
-namespace apiTest.Services.Users;
+namespace apiTest.Services.Users.Dto;
 
 public sealed record UpdateUserCommand(
     string Email,

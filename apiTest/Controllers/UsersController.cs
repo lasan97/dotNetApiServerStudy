@@ -1,11 +1,13 @@
 using apiTest.Dtos.Users;
-using apiTest.Services;
 using apiTest.Services.Users;
+using apiTest.Services.Users.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apiTest.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/users")]
 public sealed class UsersController(UserService userService) : ControllerBase
 {
@@ -26,6 +28,7 @@ public sealed class UsersController(UserService userService) : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<ActionResult<UserResponse>> CreateUser(
         CreateUserRequest request,
         CancellationToken cancellationToken)

@@ -18,8 +18,11 @@ public static class DatabaseExtensions
         }
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(connectionString)
-        );
+        {
+            options.UseNpgsql(connectionString);
+            // OpenIddict EF Core store가 AppDbContext를 토큰 저장소로 사용할 수 있게 연결
+            options.UseOpenIddict();
+        });
 
         return services;
     }

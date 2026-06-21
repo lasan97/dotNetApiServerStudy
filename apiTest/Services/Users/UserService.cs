@@ -3,15 +3,15 @@ using apiTest.Common.Exceptions;
 using apiTest.Domain.Entities;
 using apiTest.Dtos.Users;
 using apiTest.Services.Security;
-using apiTest.Services.Users;
+using apiTest.Services.Users.Dto;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace apiTest.Services;
+namespace apiTest.Services.Users;
 
 public sealed class UserService(
     AppDbContext dbContext,
-    IPasswordHashService passwordHashService)
+    IPasswordHashManager passwordHashManager)
 {
     public async Task<List<UserResponse>> GetUsersAsync(
         CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ public sealed class UserService(
         var user = new User(
             command.Email,
             command.Name,
-            passwordHashService.Hash(command.Password));
+            passwordHashManager.Hash(command.Password));
 
         dbContext.Users.Add(user);
         await SaveChangesAsync(cancellationToken);
@@ -77,7 +77,7 @@ public sealed class UserService(
         user.Update(
             command.Email,
             command.Name,
-            passwordHashService.Hash(command.Password));
+            passwordHashManager.Hash(command.Password));
         await SaveChangesAsync(cancellationToken);
 
         return UserResponse.From(user);

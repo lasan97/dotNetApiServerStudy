@@ -17,6 +17,9 @@ builder.Services.AddApplicationServices();
 // DB 등록
 builder.Services.AddDatabase(builder.Configuration);
 
+// Auth 등록
+builder.Services.AddAuth(builder.Environment);
+
 // ErrorHandler 등록
 builder.Services.AddErrorHandling();
 
@@ -32,6 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseErrorHandling();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

@@ -4,8 +4,8 @@ namespace apiTest.Services.Security;
 
 public sealed class PasswordHashSubject;
 
-public sealed class PasswordHashService(
-    IPasswordHasher<PasswordHashSubject> passwordHasher) : IPasswordHashService
+public sealed class PasswordHashManager(
+    IPasswordHasher<PasswordHashSubject> passwordHasher) : IPasswordHashManager
 {
     private static readonly PasswordHashSubject Subject = new();
 
