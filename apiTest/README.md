@@ -25,6 +25,13 @@ DB 커넥션 정보는 각 환경에서 관리 (repo에 포함시키지 않음)
 ```bash
 cp appsettings.Local.example.json appsettings.Local.json
 
+# Auth:TokenSigningPrivateKey에는 RSA private key PEM을 넣는다.
+# appsettings.Local.json에 넣을 때는 줄바꿈을 \n로 넣는다.
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 2>/dev/null | awk '{printf "%s\\n", $0}'
+
+# Auth:TokenEncryptionKey에는 긴 랜덤 문자열을 넣는다.
+openssl rand -base64 32
+
 dotnet tool restore
 dotnet ef database update
 

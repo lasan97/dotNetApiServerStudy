@@ -18,7 +18,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddDatabase(builder.Configuration);
 
 // Auth 등록
-builder.Services.AddAuth(builder.Environment);
+builder.Services.AddAuth(builder.Configuration, builder.Environment);
 
 // ErrorHandler 등록
 builder.Services.AddErrorHandling();
