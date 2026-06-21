@@ -14,7 +14,10 @@ public sealed class ConnectController(AuthService authService) : ControllerBase
 {
     [HttpPost("~/connect/token")]
     [Consumes("application/x-www-form-urlencoded")]
-    public async Task<IActionResult> Exchange(CancellationToken cancellationToken)
+    public async Task<IActionResult> Exchange(
+        // Swagger에 form-urlencoded 필드를 노출하기 위한 파라미터로 실제 처리는 OpenIddict request 기준
+        [FromForm] TokenExchangeForm form,
+        CancellationToken cancellationToken)
     {
         var request = HttpContext.GetOpenIddictServerRequest()
                       ?? throw new InvalidOperationException("OpenIddict token request is not available.");
