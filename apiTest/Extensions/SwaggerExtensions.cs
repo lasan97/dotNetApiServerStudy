@@ -29,6 +29,8 @@ public static class SwaggerExtensions
                         externalResource: null)
                 ] = []
             });
+
+            options.OperationFilter<ConnectTokenOperationFilter>();
         });
 
         return services;
