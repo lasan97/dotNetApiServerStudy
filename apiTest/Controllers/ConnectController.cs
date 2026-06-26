@@ -10,6 +10,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 namespace apiTest.Controllers;
 
 [ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
 public sealed class ConnectController(AuthService authService) : ControllerBase
 {
     [HttpPost("~/connect/token")]

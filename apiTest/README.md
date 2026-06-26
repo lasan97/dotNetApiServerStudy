@@ -25,11 +25,17 @@ DB 커넥션 정보는 각 환경에서 관리 (repo에 포함시키지 않음)
 ```bash
 cp appsettings.Local.example.json appsettings.Local.json
 
+# Auth:InternalClientId에는 내부 first-party client id를 넣는다.
+# 예: internal-first-party
+
 # Auth:TokenSigningPrivateKey에는 RSA private key PEM을 넣는다.
 # appsettings.Local.json에 넣을 때는 줄바꿈을 \n로 넣는다.
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 2>/dev/null | awk '{printf "%s\\n", $0}'
 
 # Auth:TokenEncryptionKey에는 긴 랜덤 문자열을 넣는다.
+openssl rand -base64 32
+
+# Auth:InternalClientSecret에는 내부 client secret으로 쓸 긴 랜덤 문자열을 넣는다.
 openssl rand -base64 32
 
 dotnet tool restore
@@ -43,16 +49,20 @@ Rider로 실행해도 `appsettings.Local.json`은 자동으로 읽음
 
 # 내부 인증 토큰 발급
 
-초기 인증은 OpenIddict 기반의 내부 first-party client만 사용한다.
+초기 인증은 OpenIddict 기반의 내부 first-party client를 사용한다.
 
 ```bash
 curl -X POST http://localhost:5188/connect/token \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d "grant_type=password" \
-  -d "client_id=internal-first-party" \
+  -d "client_id=<Auth:InternalClientId>" \
+  -d "client_secret=<Auth:InternalClientSecret>" \
   -d "username=user@example.com" \
   -d "password=pass" \
   -d "scope=api offline_access"
 ```
+
+Swagger UI Authorize 모달도 같은 내부 client id를 사용한다.
+`client_secret`에는 DB의 `ClientSecret` 해시값이 아니라 `Auth:InternalClientSecret` 원문 값을 입력한다.
 
 `password` grant는 내부 client 전용이다. 외부 개발자 client를 열 때는 Authorization Code + PKCE 흐름으로 확장한다.
